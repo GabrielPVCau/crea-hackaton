@@ -58,6 +58,21 @@
             0%, 100% { box-shadow: 0 0 15px rgba(88, 101, 242, 0.2); }
             50% { box-shadow: 0 0 30px rgba(88, 101, 242, 0.5); }
         }
+        
+        /* Animação de entrada para canais */
+        @keyframes slideDown {
+            from { 
+                opacity: 0; 
+                transform: translateY(-8px) scale(0.95); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+            }
+        }
+        .channel-enter {
+            animation: slideDown 0.25s ease-out forwards;
+        }
     </style>
 </head>
 <body class="bg-discord-bg text-discord-text min-h-screen overflow-x-hidden" x-data="app()">
@@ -244,60 +259,46 @@
             </div>
             
             <!-- Lista de Canais (Dinâmica) -->
-            <div class="flex-1 overflow-y-auto p-2 space-y-1">
+            <div class="flex-1 overflow-y-auto p-2 space-y-0.5">
                 
-                <!-- Estado Inicial: Vazio ou Básico -->
-                <div x-show="!started" class="text-center py-10 px-4">
-                    <p class="text-xs text-discord-muted">O servidor está vazio. Inicie o bot para estruturar.</p>
+                <!-- Estado Inicial: Vazio -->
+                <div x-show="serverStructure.length === 0" class="text-center py-10 px-4">
+                    <div class="w-12 h-12 bg-discord-bg rounded-xl flex items-center justify-center mx-auto mb-3 opacity-50">
+                        <i class="bi bi-folder2-open text-2xl text-discord-muted"></i>
+                    </div>
+                    <p class="text-xs text-discord-muted">O servidor está vazio.<br>Inicie o bot para estruturar.</p>
                 </div>
 
-                <!-- Categoria: Informações -->
-                <div x-show="progress >= 1" class="fade-in">
-                    <div class="text-[10px] font-bold text-discord-muted uppercase px-2 py-1 mt-2 hover:text-discord-text cursor-pointer flex items-center">
-                        <i class="bi bi-chevron-down mr-1"></i> 📢 INFORMAÇÕES
+                <!-- Renderização Dinâmica dos Canais -->
+                <template x-for="(item, index) in serverStructure" :key="index">
+                    <div class="channel-enter">
+                        <!-- Categoria -->
+                        <template x-if="item.type === 'category'">
+                            <div class="text-[10px] font-bold text-discord-muted uppercase px-1 py-1.5 mt-3 first:mt-0 hover:text-discord-text cursor-pointer flex items-center gap-1 select-none">
+                                <i class="bi bi-chevron-down text-[8px]"></i>
+                                <span x-text="item.name"></span>
+                            </div>
+                        </template>
+                        
+                        <!-- Canal de Texto -->
+                        <template x-if="item.type === 'text'">
+                            <div class="group px-2 py-1 rounded hover:bg-discord-hover text-discord-muted hover:text-discord-text flex items-center gap-1.5 cursor-pointer ml-1 transition-colors">
+                                <span class="text-lg leading-none opacity-60">#</span>
+                                <span class="text-sm flex-1 truncate" x-text="item.name"></span>
+                                <i x-show="item.locked" class="bi bi-lock-fill text-[10px] opacity-40"></i>
+                            </div>
+                        </template>
+                        
+                        <!-- Canal de Voz -->
+                        <template x-if="item.type === 'voice'">
+                            <div class="group px-2 py-1 rounded hover:bg-discord-hover text-discord-muted hover:text-discord-text flex items-center gap-1.5 cursor-pointer ml-1 transition-colors">
+                                <i class="bi bi-volume-up-fill text-base opacity-60"></i>
+                                <span class="text-sm flex-1 truncate" x-text="item.name"></span>
+                                <i x-show="item.locked" class="bi bi-lock-fill text-[10px] opacity-40"></i>
+                            </div>
+                        </template>
                     </div>
-                    <div class="ml-1 space-y-[1px]">
-                        <div class="px-2 py-1 rounded hover:bg-discord-hover text-discord-muted flex items-center gap-2 cursor-pointer">
-                            <i class="bi bi-hash text-lg"></i> <span class="text-sm">boas-vindas</span>
-                        </div>
-                        <div class="px-2 py-1 rounded hover:bg-discord-hover text-discord-muted flex items-center gap-2 cursor-pointer">
-                            <i class="bi bi-file-earmark-text text-lg"></i> <span class="text-sm">regras-edital</span>
-                        </div>
-                         <div class="px-2 py-1 rounded hover:bg-discord-hover text-discord-muted flex items-center gap-2 cursor-pointer">
-                            <i class="bi bi-megaphone text-lg"></i> <span class="text-sm">anuncios</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Categoria: Times -->
-                <div x-show="progress >= 2" class="fade-in">
-                    <div class="text-[10px] font-bold text-discord-muted uppercase px-2 py-1 mt-4 hover:text-discord-text cursor-pointer flex items-center">
-                        <i class="bi bi-chevron-down mr-1"></i> 🚀 HACKATHON
-                    </div>
-                    <div class="ml-1 space-y-[1px]">
-                         <div class="px-2 py-1 rounded hover:bg-discord-hover text-discord-muted flex items-center gap-2 cursor-pointer">
-                            <i class="bi bi-people text-lg"></i> <span class="text-sm">procura-se-time</span>
-                        </div>
-                        <div class="px-2 py-1 rounded hover:bg-discord-hover text-discord-muted flex items-center gap-2 cursor-pointer">
-                            <i class="bi bi-chat-dots text-lg"></i> <span class="text-sm">chat-geral</span>
-                        </div>
-                        <div class="px-2 py-1 rounded hover:bg-discord-hover text-discord-muted flex items-center gap-2 cursor-pointer">
-                            <i class="bi bi-life-preserver text-lg"></i> <span class="text-sm">ajuda-mentoria</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Categoria: Staff -->
-                <div x-show="progress >= 3" class="fade-in">
-                    <div class="text-[10px] font-bold text-discord-muted uppercase px-2 py-1 mt-4 hover:text-discord-text cursor-pointer flex items-center">
-                        <i class="bi bi-chevron-down mr-1"></i> 🔒 STAFF AREA
-                    </div>
-                    <div class="ml-1 space-y-[1px]">
-                         <div class="px-2 py-1 rounded bg-discord-hover/50 text-white flex items-center gap-2 cursor-pointer">
-                            <i class="bi bi-gear-fill text-lg"></i> <span class="text-sm">painel-bot</span>
-                        </div>
-                    </div>
-                </div>
+                </template>
 
             </div>
             
@@ -386,9 +387,42 @@
                 finished: false,
                 progress: 0,
                 logs: [],
+                serverStructure: [],
+                
+                // Estrutura completa do servidor
+                fullServerStructure: [
+                    { type: 'category', name: 'INTERAÇÃO' },
+                    { type: 'text', name: '📍-check-in', locked: false },
+                    { type: 'text', name: '🦉-tô-perdido', locked: false },
+                    { type: 'text', name: '💬-bate-papo', locked: false },
+                    { type: 'text', name: '📸-tô-no-inova-norte', locked: true },
+                    { type: 'text', name: '🌎-networking', locked: true },
+                    { type: 'text', name: '❓-tire-sua-dúvida', locked: true },
+                    { type: 'category', name: 'IMPORTANTE ⬇️' },
+                    { type: 'text', name: '🔔-avisos', locked: true },
+                    { type: 'text', name: '📅-programação-lives', locked: true },
+                    { type: 'text', name: '🔥-entregas', locked: true },
+                    { type: 'text', name: '🚀-desafios', locked: true },
+                    { type: 'text', name: '📄-regras', locked: true },
+                    { type: 'text', name: '🏆-premiação', locked: true },
+                    { type: 'category', name: 'MONTAGEM DE TIMES' },
+                    { type: 'text', name: '🙋-tô-sem-time', locked: true },
+                    { type: 'text', name: '🧩-criar-time', locked: true },
+                    { type: 'category', name: 'EQUIPES' },
+                    { type: 'voice', name: '🔊 equipe-034', locked: false },
+                ],
+                
+                async populateServerStructure() {
+                    for (let i = 0; i < this.fullServerStructure.length; i++) {
+                        this.serverStructure.push(this.fullServerStructure[i]);
+                        await this.wait(200);
+                    }
+                },
                 
                 async startSimulation() {
                     this.started = true;
+                    this.serverStructure = [];
+                    
                     this.addLog("Iniciando HackaBot v2.0...", "text-white");
                     await this.wait(800);
                     
@@ -396,28 +430,22 @@
                     await this.wait(1000);
                     this.addLog("Conectado com sucesso.", "text-green-400");
                     
-                    // Passo 1: Informações
-                    await this.wait(600);
-                    this.addLog("Criando categoria: 📢 INFORMAÇÕES...", "text-white");
-                    this.progress = 1;
-                    this.addLog("  + Canal #boas-vindas criado.", "text-discord-muted");
-                    this.addLog("  + Canal #regras-edital criado (Template carregado).", "text-discord-muted");
+                    // Inicia a população dos canais em paralelo com os logs
+                    await this.wait(400);
+                    this.addLog("Criando estrutura do servidor...", "text-white");
                     
-                    // Passo 2: Hackathon
-                    await this.wait(1200);
+                    // Popula a estrutura item por item
+                    await this.populateServerStructure();
+                    
+                    await this.wait(600);
                     this.addLog("Configurando permissões de cargos (@Participante, @Mentor)...", "text-yellow-400");
                     await this.wait(800);
-                    this.addLog("Criando categoria: 🚀 HACKATHON...", "text-white");
-                    this.progress = 2;
-                    this.addLog("  + Canal #procura-se-time (Thread ativada).", "text-discord-muted");
-                    this.addLog("  + Canal #ajuda-mentoria (Ticket System ativado).", "text-discord-muted");
+                    this.addLog("Permissões aplicadas com sucesso.", "text-green-400");
 
-                    // Passo 3: Web & Staff
-                    await this.wait(1200);
+                    await this.wait(600);
                     this.addLog("Gerando página de inscrição...", "text-pink-400");
                     this.addLog("Link gerado: hackabot.io/evento/meu-hackathon-2025", "text-blue-400 underline");
-                    await this.wait(1000);
-                    this.progress = 3;
+                    await this.wait(800);
                     this.addLog("Finalizando setup do Dashboard...", "text-white");
                     
                     await this.wait(500);
