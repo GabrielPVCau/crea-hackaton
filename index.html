@@ -105,7 +105,7 @@
                 </span>
                 <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
                     Crie seu Hackathon no <br>
-                    <span class="text-discord-blurple">Discord em 5 minutos.</span>
+                    <span class="text-discord-blurple">em 5 minutos.</span>
                 </h1>
                 <p class="text-xl text-discord-muted mb-8 max-w-2xl mx-auto">
                     O mercado tem talentos invisíveis. Sua comunidade tem energia. 
@@ -258,6 +258,32 @@
                 <i class="bi bi-chevron-down text-xs text-discord-text"></i>
             </div>
             
+            <!-- Stats em tempo real -->
+            <div x-show="started" x-transition class="bg-discord-dark/50 px-3 py-2 border-b border-discord-dark/50">
+                <div class="grid grid-cols-2 gap-2 text-[10px]">
+                    <div class="flex items-center gap-1">
+                        <i class="bi bi-hash text-discord-blurple"></i>
+                        <span class="text-discord-muted">Canais:</span>
+                        <span class="text-white font-bold" x-text="stats.channels"></span>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <i class="bi bi-people-fill text-purple-400"></i>
+                        <span class="text-discord-muted">Cargos:</span>
+                        <span class="text-white font-bold" x-text="stats.roles"></span>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <i class="bi bi-shield-fill text-orange-400"></i>
+                        <span class="text-discord-muted">Regras:</span>
+                        <span class="text-white font-bold" x-text="stats.permissions * stats.roles"></span>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <i class="bi bi-collection-fill text-green-400"></i>
+                        <span class="text-discord-muted">Equipes:</span>
+                        <span class="text-white font-bold" x-text="stats.teams"></span>
+                    </div>
+                </div>
+            </div>
+            
             <!-- Lista de Canais (Dinâmica) -->
             <div class="flex-1 overflow-y-auto p-2 space-y-0.5">
                 
@@ -388,6 +414,7 @@
                 progress: 0,
                 logs: [],
                 serverStructure: [],
+                stats: { channels: 0, roles: 0, permissions: 0, teams: 0 },
                 
                 // Estrutura completa do servidor
                 fullServerStructure: [
@@ -395,7 +422,7 @@
                     { type: 'text', name: '📍-check-in', locked: false },
                     { type: 'text', name: '🦉-tô-perdido', locked: false },
                     { type: 'text', name: '💬-bate-papo', locked: false },
-                    { type: 'text', name: '📸-tô-no-inova-norte', locked: true },
+                    { type: 'text', name: '📸-tô-no-hackathon', locked: true },
                     { type: 'text', name: '🌎-networking', locked: true },
                     { type: 'text', name: '❓-tire-sua-dúvida', locked: true },
                     { type: 'category', name: 'IMPORTANTE ⬇️' },
@@ -405,48 +432,142 @@
                     { type: 'text', name: '🚀-desafios', locked: true },
                     { type: 'text', name: '📄-regras', locked: true },
                     { type: 'text', name: '🏆-premiação', locked: true },
+                    { type: 'category', name: 'MENTORIA' },
+                    { type: 'text', name: '🎫-abrir-ticket', locked: true },
+                    { type: 'text', name: '📚-materiais-apoio', locked: true },
+                    { type: 'text', name: '🗓️-agenda-mentores', locked: true },
                     { type: 'category', name: 'MONTAGEM DE TIMES' },
                     { type: 'text', name: '🙋-tô-sem-time', locked: true },
                     { type: 'text', name: '🧩-criar-time', locked: true },
-                    { type: 'category', name: 'EQUIPES' },
-                    { type: 'voice', name: '🔊 equipe-034', locked: false },
+                    { type: 'text', name: '🔍-buscar-habilidades', locked: true },
+                    { type: 'category', name: 'STAFF' },
+                    { type: 'text', name: '🔧-painel-admin', locked: true },
+                    { type: 'text', name: '📊-dashboard', locked: true },
+                    { type: 'text', name: '🚨-reports', locked: true },
+                    { type: 'category', name: '═══ EQUIPES ═══' },
                 ],
                 
+                // Gera 50 equipes
+                generateTeams() {
+                    const teams = [];
+                    for (let i = 1; i <= 50; i++) {
+                        const num = String(i).padStart(3, '0');
+                        teams.push({ type: 'voice', name: `🔊 equipe-${num}`, locked: false, isTeam: true });
+                        teams.push({ type: 'text', name: `💬-chat-${num}`, locked: true, isTeam: true });
+                    }
+                    return teams;
+                },
+                
                 async populateServerStructure() {
+                    // Primeiro adiciona a estrutura base
                     for (let i = 0; i < this.fullServerStructure.length; i++) {
                         this.serverStructure.push(this.fullServerStructure[i]);
-                        await this.wait(200);
+                        this.stats.channels++;
+                        await this.wait(150);
+                    }
+                    
+                    // Depois adiciona as 50 equipes rapidamente
+                    const teams = this.generateTeams();
+                    for (let i = 0; i < teams.length; i++) {
+                        this.serverStructure.push(teams[i]);
+                        this.stats.channels++;
+                        if (teams[i].type === 'voice') {
+                            this.stats.teams++;
+                        }
+                        // Velocidade mais rápida para as equipes (efeito "máquina trabalhando")
+                        await this.wait(50);
                     }
                 },
                 
                 async startSimulation() {
                     this.started = true;
                     this.serverStructure = [];
+                    this.stats = { channels: 0, roles: 0, permissions: 0, teams: 0 };
                     
                     this.addLog("Iniciando HackaBot v2.0...", "text-white");
-                    await this.wait(800);
+                    await this.wait(600);
                     
                     this.addLog("Conectando ao servidor Discord...", "text-yellow-400");
-                    await this.wait(1000);
-                    this.addLog("Conectado com sucesso.", "text-green-400");
+                    await this.wait(800);
+                    this.addLog("✓ Conectado com sucesso.", "text-green-400");
                     
-                    // Inicia a população dos canais em paralelo com os logs
+                    // Criação de cargos
                     await this.wait(400);
-                    this.addLog("Criando estrutura do servidor...", "text-white");
+                    this.addLog("", "text-white");
+                    this.addLog("══════ CRIANDO CARGOS ══════", "text-purple-400");
+                    const roles = ['@Organizador', '@Mentor', '@Jurado', '@Participante', '@Staff', '@Patrocinador'];
+                    for (const role of roles) {
+                        await this.wait(200);
+                        this.addLog(`  + Cargo ${role} criado`, "text-discord-muted");
+                        this.stats.roles++;
+                    }
+                    this.addLog("✓ 6 cargos configurados.", "text-green-400");
                     
-                    // Popula a estrutura item por item
+                    // Permissões
+                    await this.wait(300);
+                    this.addLog("", "text-white");
+                    this.addLog("══════ CONFIGURANDO PERMISSÕES ══════", "text-orange-400");
+                    const permissions = [
+                        'Leitura de mensagens', 'Envio de mensagens', 'Anexar arquivos',
+                        'Criar threads', 'Conectar em voz', 'Falar em voz',
+                        'Compartilhar tela', 'Mencionar @everyone', 'Gerenciar mensagens',
+                        'Ver histórico', 'Usar comandos de barra', 'Reagir a mensagens'
+                    ];
+                    for (const perm of permissions) {
+                        await this.wait(80);
+                        this.addLog(`  ↳ ${perm}`, "text-discord-muted");
+                        this.stats.permissions++;
+                    }
+                    this.addLog("✓ 72 regras de permissão aplicadas (6 cargos × 12 permissões).", "text-green-400");
+                    
+                    // Estrutura de canais
+                    await this.wait(400);
+                    this.addLog("", "text-white");
+                    this.addLog("══════ CRIANDO ESTRUTURA ══════", "text-cyan-400");
+                    this.addLog("Gerando categorias e canais...", "text-white");
+                    
+                    // Popula a estrutura item por item (roda em paralelo visualmente)
                     await this.populateServerStructure();
                     
+                    this.addLog(`✓ ${this.stats.channels} canais criados.`, "text-green-400");
+                    this.addLog(`✓ ${this.stats.teams} salas de equipe prontas.`, "text-green-400");
+                    
+                    // Configurações extras
+                    await this.wait(400);
+                    this.addLog("", "text-white");
+                    this.addLog("══════ AUTOMAÇÕES EXTRAS ══════", "text-pink-400");
+                    
+                    const extras = [
+                        { text: 'Webhook de notificações configurado', delay: 200 },
+                        { text: 'Bot de boas-vindas ativado', delay: 200 },
+                        { text: 'Sistema de tickets integrado', delay: 200 },
+                        { text: 'Auto-moderação configurada (anti-spam, filtros)', delay: 250 },
+                        { text: 'Formulário de inscrição gerado', delay: 200 },
+                        { text: 'Integração com Google Sheets ativada', delay: 200 },
+                        { text: 'Template de regras aplicado', delay: 150 },
+                        { text: 'Cronograma automático configurado', delay: 200 },
+                        { text: 'Sistema de votação de projetos pronto', delay: 200 },
+                    ];
+                    
+                    for (const extra of extras) {
+                        await this.wait(extra.delay);
+                        this.addLog(`  ✓ ${extra.text}`, "text-discord-muted");
+                    }
+                    
+                    await this.wait(500);
+                    this.addLog("", "text-white");
+                    this.addLog("══════ PÁGINA DE INSCRIÇÃO ══════", "text-blue-400");
+                    this.addLog("Gerando landing page personalizada...", "text-white");
                     await this.wait(600);
-                    this.addLog("Configurando permissões de cargos (@Participante, @Mentor)...", "text-yellow-400");
-                    await this.wait(800);
-                    this.addLog("Permissões aplicadas com sucesso.", "text-green-400");
-
-                    await this.wait(600);
-                    this.addLog("Gerando página de inscrição...", "text-pink-400");
-                    this.addLog("Link gerado: hackabot.io/evento/meu-hackathon-2025", "text-blue-400 underline");
-                    await this.wait(800);
-                    this.addLog("Finalizando setup do Dashboard...", "text-white");
+                    this.addLog("Link: hackabot.io/evento/meu-hackathon-2025", "text-blue-400 underline cursor-pointer");
+                    
+                    await this.wait(400);
+                    this.addLog("", "text-white");
+                    this.addLog("════════════════════════════════", "text-discord-blurple");
+                    this.addLog(`📊 RESUMO: ${this.stats.channels} canais | ${this.stats.roles} cargos | ${this.stats.permissions * this.stats.roles} permissões | ${this.stats.teams} equipes`, "text-white font-bold");
+                    this.addLog("⏱️  Tempo total: 47 segundos", "text-discord-muted");
+                    this.addLog("💡 Manualmente isso levaria: ~4 horas", "text-yellow-400");
+                    this.addLog("════════════════════════════════", "text-discord-blurple");
                     
                     await this.wait(500);
                     this.finished = true;
