@@ -1,24 +1,26 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HackaBot - Organize Hackathons no Piloto Automático</title>
-    
+
     <!-- Fonte: Space Grotesk (Tech/Futurista) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
     <!-- Ícones -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <!-- Alpine.js (Para a interatividade) -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    
+
     <script>
         tailwind.config = {
             theme: {
@@ -40,47 +42,85 @@
             }
         }
     </script>
-    
+
     <style>
-        * { font-family: 'Space Grotesk', sans-serif; }
-        
-        /* Scrollbar estilo Discord */
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: #2f3136; }
-        ::-webkit-scrollbar-thumb { background: #202225; border-radius: 4px; }
-        
-        /* Animações */
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-        .fade-in { animation: fadeIn 0.3s ease-out forwards; }
-        
-        .pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 15px rgba(88, 101, 242, 0.2); }
-            50% { box-shadow: 0 0 30px rgba(88, 101, 242, 0.5); }
+        * {
+            font-family: 'Space Grotesk', sans-serif;
         }
-        
+
+        /* Scrollbar estilo Discord */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #2f3136;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #202225;
+            border-radius: 4px;
+        }
+
+        /* Animações */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+
+        .pulse-glow {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 15px rgba(88, 101, 242, 0.2);
+            }
+
+            50% {
+                box-shadow: 0 0 30px rgba(88, 101, 242, 0.5);
+            }
+        }
+
         /* Animação de entrada para canais */
         @keyframes slideDown {
-            from { 
-                opacity: 0; 
-                transform: translateY(-8px) scale(0.95); 
+            from {
+                opacity: 0;
+                transform: translateY(-8px) scale(0.95);
             }
-            to { 
-                opacity: 1; 
-                transform: translateY(0) scale(1); 
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
             }
         }
+
         .channel-enter {
             animation: slideDown 0.25s ease-out forwards;
         }
     </style>
 </head>
+
 <body class="bg-discord-bg text-discord-text min-h-screen overflow-x-hidden" x-data="app()">
 
     <!-- ==================== LANDING PAGE ==================== -->
     <div x-show="view === 'landing'" x-transition:enter="transition ease-out duration-300"
-         class="min-h-screen flex flex-col">
-        
+        class="min-h-screen flex flex-col">
+
         <!-- Nav -->
         <nav class="w-full px-6 py-4 flex justify-between items-center max-w-7xl mx-auto">
             <div class="flex items-center gap-2 font-bold text-xl text-white">
@@ -88,19 +128,24 @@
             </div>
             <div class="flex gap-4">
                 <a href="#planos" class="text-discord-muted hover:text-white py-2">Planos</a>
-                <button @click="view = 'demo'" class="bg-discord-blurple hover:bg-opacity-90 text-white px-4 py-2 rounded-lg transition-all font-medium">
+                <button @click="view = 'demo'"
+                    class="bg-discord-blurple hover:bg-opacity-90 text-white px-4 py-2 rounded-lg transition-all font-medium">
                     Testar Simulador
                 </button>
             </div>
         </nav>
 
         <!-- Hero -->
-        <header class="flex-1 flex flex-col items-center justify-center text-center px-4 py-20 relative overflow-hidden">
+        <header
+            class="flex-1 flex flex-col items-center justify-center text-center px-4 py-20 relative overflow-hidden">
             <!-- Background Glow -->
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-discord-blurple/10 rounded-full blur-[100px] pointer-events-none"></div>
+            <div
+                class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-discord-blurple/10 rounded-full blur-[100px] pointer-events-none">
+            </div>
 
             <div class="relative z-10 max-w-4xl">
-                <span class="bg-discord-dark border border-white/5 text-discord-success px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase mb-6 inline-block">
+                <span
+                    class="bg-discord-dark border border-white/5 text-discord-success px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase mb-6 inline-block">
                     Democratizando Hackathons
                 </span>
                 <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
@@ -108,15 +153,17 @@
                     <span class="text-discord-blurple">em 5 minutos.</span>
                 </h1>
                 <p class="text-xl text-discord-muted mb-8 max-w-2xl mx-auto">
-                    O mercado tem talentos invisíveis. Sua comunidade tem energia. 
+                    O mercado tem talentos invisíveis. Sua comunidade tem energia.
                     Nós juntamos os dois com automação. Estrutura, bot de moderação e inscrições num clique.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button @click="view = 'demo'" class="bg-discord-blurple text-white px-8 py-4 rounded-xl text-lg font-bold hover:scale-105 transition-transform shadow-lg shadow-discord-blurple/20 flex items-center gap-3">
+                    <button @click="view = 'demo'"
+                        class="bg-discord-blurple text-white px-8 py-4 rounded-xl text-lg font-bold hover:scale-105 transition-transform shadow-lg shadow-discord-blurple/20 flex items-center gap-3">
                         <i class="bi bi-magic"></i>
                         Ver o Bot Criando um Evento
                     </button>
-                    <a href="#planos" class="bg-discord-card border border-white/10 text-white px-8 py-4 rounded-xl text-lg font-bold hover:bg-discord-hover transition-colors">
+                    <a href="#planos"
+                        class="bg-discord-card border border-white/10 text-white px-8 py-4 rounded-xl text-lg font-bold hover:bg-discord-hover transition-colors">
                         Ver Preços
                     </a>
                 </div>
@@ -144,14 +191,18 @@
                     </ul>
                 </div>
                 <div class="bg-discord-card p-6 rounded-2xl border border-white/5 relative">
-                    <div class="absolute -top-3 -right-3 bg-discord-success text-white px-3 py-1 rounded-full text-sm font-bold">Solução</div>
-                    <h3 class="text-xl font-bold text-white mb-4"><i class="bi bi-check-circle-fill text-discord-success mr-2"></i> Nossa Automação</h3>
+                    <div
+                        class="absolute -top-3 -right-3 bg-discord-success text-white px-3 py-1 rounded-full text-sm font-bold">
+                        Solução</div>
+                    <h3 class="text-xl font-bold text-white mb-4"><i
+                            class="bi bi-check-circle-fill text-discord-success mr-2"></i> Nossa Automação</h3>
                     <div class="space-y-3">
                         <div class="bg-discord-bg p-3 rounded flex items-center gap-3">
                             <i class="bi bi-robot text-discord-blurple text-xl"></i>
                             <div>
                                 <div class="font-bold text-white">Bot Organizador</div>
-                                <div class="text-xs text-discord-muted">Cria canais, cargos e regras automaticamente.</div>
+                                <div class="text-xs text-discord-muted">Cria canais, cargos e regras automaticamente.
+                                </div>
                             </div>
                         </div>
                         <div class="bg-discord-bg p-3 rounded flex items-center gap-3">
@@ -176,417 +227,967 @@
 
                 <div class="grid md:grid-cols-2 gap-8">
                     <!-- Plano A -->
-                    <div class="bg-discord-card border border-white/5 rounded-2xl p-8 hover:border-discord-blurple transition-colors relative group">
-                        <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-discord-dark border border-white/10 px-4 py-1 rounded-full text-sm text-discord-muted">
+                    <div
+                        class="bg-discord-card border border-white/5 rounded-2xl p-8 hover:border-discord-blurple transition-colors relative group">
+                        <div
+                            class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-discord-dark border border-white/10 px-4 py-1 rounded-full text-sm text-discord-muted">
                             Para Comunidades e Escolas
                         </div>
                         <h3 class="text-2xl font-bold text-white mb-2">Kit Organizador</h3>
-                        <p class="text-discord-muted text-sm h-10">Automação completa da estrutura. Você foca no conteúdo.</p>
+                        <p class="text-discord-muted text-sm h-10">Automação completa da estrutura. Você foca no
+                            conteúdo.</p>
                         <div class="my-6">
                             <span class="text-4xl font-bold text-white">R$ 200</span>
                             <span class="text-discord-muted">/evento</span>
                         </div>
-                        <button class="w-full bg-discord-blurple hover:bg-opacity-90 text-white py-3 rounded-lg font-bold mb-6 transition-transform group-hover:scale-[1.02]">
-                            Comprar Kit Automático
+                        <button @click="view = 'organizer-dash'"
+                            class="w-full bg-discord-blurple hover:bg-opacity-90 text-white py-3 rounded-lg font-bold mb-6 transition-transform group-hover:scale-[1.02]">
+                            Começar Agora
                         </button>
                         <ul class="space-y-3 text-sm text-discord-text">
-                            <li class="flex items-center gap-2"><i class="bi bi-check-lg text-discord-success"></i> Setup Automático do Discord</li>
-                            <li class="flex items-center gap-2"><i class="bi bi-check-lg text-discord-success"></i> Bot de Moderação</li>
-                            <li class="flex items-center gap-2"><i class="bi bi-check-lg text-discord-success"></i> Página de Inscrição Pronta</li>
-                            <li class="flex items-center gap-2"><i class="bi bi-check-lg text-discord-success"></i> Checklist de Organização</li>
-                            <li class="flex items-center gap-2"><i class="bi bi-check-lg text-discord-success"></i> Edital/Regras (Template)</li>
+                            <li class="flex items-center gap-2"><i class="bi bi-check-lg text-discord-success"></i>
+                                Setup Automático do Discord</li>
+                            <li class="flex items-center gap-2"><i class="bi bi-check-lg text-discord-success"></i> Bot
+                                de Moderação</li>
+                            <li class="flex items-center gap-2"><i class="bi bi-check-lg text-discord-success"></i>
+                                Página de Inscrição Pronta</li>
+                            <li class="flex items-center gap-2"><i class="bi bi-check-lg text-discord-success"></i>
+                                Checklist de Organização</li>
+                            <li class="flex items-center gap-2"><i class="bi bi-check-lg text-discord-success"></i>
+                                Edital/Regras (Template)</li>
                         </ul>
                     </div>
 
                     <!-- Plano B -->
-                    <div class="bg-gradient-to-b from-discord-card to-discord-dark border border-yellow-500/30 rounded-2xl p-8 relative shadow-xl">
-                        <div class="absolute top-0 right-0 bg-yellow-500 text-black text-xs font-bold px-3 py-1 rounded-bl-lg rounded-tr-lg">PREMIUM</div>
+                    <div
+                        class="bg-gradient-to-b from-discord-card to-discord-dark border border-yellow-500/30 rounded-2xl p-8 relative shadow-xl">
+                        <div
+                            class="absolute top-0 right-0 bg-yellow-500 text-black text-xs font-bold px-3 py-1 rounded-bl-lg rounded-tr-lg">
+                            PREMIUM</div>
                         <h3 class="text-2xl font-bold text-white mb-2">Assessoria Completa</h3>
-                        <p class="text-discord-muted text-sm h-10">Nós fazemos tudo. Ideal para empresas que buscam inovação sem dor de cabeça.</p>
+                        <p class="text-discord-muted text-sm h-10">Nós fazemos tudo. Ideal para empresas que buscam
+                            inovação sem dor de cabeça.</p>
                         <div class="my-6">
                             <span class="text-4xl font-bold text-white">R$ 5.000</span>
                             <span class="text-discord-muted">/evento</span>
                         </div>
-                        <button class="w-full bg-transparent border border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black py-3 rounded-lg font-bold mb-6 transition-colors">
+                        <button
+                            class="w-full bg-transparent border border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-black py-3 rounded-lg font-bold mb-6 transition-colors">
                             Falar com Consultor
                         </button>
                         <ul class="space-y-3 text-sm text-discord-text">
-                            <li class="flex items-center gap-2"><i class="bi bi-star-fill text-yellow-500"></i> <strong>Tudo do Plano A</strong></li>
-                            <li class="flex items-center gap-2"><i class="bi bi-check-lg text-discord-success"></i> Definição dos Desafios</li>
-                            <li class="flex items-center gap-2"><i class="bi bi-check-lg text-discord-success"></i> Gestão de Lives e Engajamento</li>
-                            <li class="flex items-center gap-2"><i class="bi bi-check-lg text-discord-success"></i> Divulgação e Aquisição de Participantes</li>
-                            <li class="flex items-center gap-2"><i class="bi bi-check-lg text-discord-success"></i> Curadoria de Mentores e Jurados</li>
+                            <li class="flex items-center gap-2"><i class="bi bi-star-fill text-yellow-500"></i>
+                                <strong>Tudo do Plano A</strong>
+                            </li>
+                            <li class="flex items-center gap-2"><i class="bi bi-check-lg text-discord-success"></i>
+                                Definição dos Desafios</li>
+                            <li class="flex items-center gap-2"><i class="bi bi-check-lg text-discord-success"></i>
+                                Gestão de Lives e Engajamento</li>
+                            <li class="flex items-center gap-2"><i class="bi bi-check-lg text-discord-success"></i>
+                                Divulgação e Aquisição de Participantes</li>
+                            <li class="flex items-center gap-2"><i class="bi bi-check-lg text-discord-success"></i>
+                                Curadoria de Mentores e Jurados</li>
                         </ul>
                     </div>
                 </div>
             </div>
         </section>
-        
+
         <footer class="text-center py-8 text-discord-muted text-sm bg-discord-dark">
             © 2025 HackaBot. Democratizando a inovação.
         </footer>
     </div>
 
-    <!-- ==================== DEMO / SIMULADOR ==================== -->
-    <div x-show="view === 'demo'" x-transition:enter="transition ease-out duration-300"
-         class="min-h-screen flex bg-discord-bg overflow-hidden font-space">
-        
-        <!-- 1. BARRA DE SERVIDORES (Esquerda) -->
-        <div class="w-[72px] bg-discord-dark flex flex-col items-center py-3 gap-2 flex-shrink-0 z-20">
-            <!-- Botão Voltar -->
-            <button @click="view = 'landing'" class="w-12 h-12 bg-discord-card hover:bg-red-500 text-white rounded-[24px] hover:rounded-[16px] flex items-center justify-center transition-all mb-2" title="Sair da Demo">
-                <i class="bi bi-x-lg text-xl"></i>
-            </button>
-            <div class="w-8 h-0.5 bg-discord-card rounded-full mb-1"></div>
-            
-            <!-- Servidor Ativo (Sendo criado) -->
-            <button class="w-12 h-12 bg-discord-blurple text-white rounded-[16px] flex items-center justify-center transition-all relative">
-                <i class="bi bi-rocket-takeoff-fill text-xl"></i>
-            </button>
-            
-            <!-- Placeholder Servidor 2 -->
-            <button class="w-12 h-12 bg-discord-card hover:bg-discord-success text-discord-success hover:text-white rounded-[24px] hover:rounded-[16px] flex items-center justify-center transition-all mt-2">
-                <i class="bi bi-plus-lg text-xl"></i>
-            </button>
-        </div>
-        
-        <!-- 2. BARRA DE CANAIS (A Mágica acontece aqui) -->
-        <div class="w-60 bg-discord-card flex flex-col flex-shrink-0 border-r border-discord-dark/50">
-            <!-- Header do Servidor -->
-            <div class="h-12 px-4 flex items-center justify-between border-b border-discord-dark shadow-sm">
-                <span class="font-bold text-white truncate text-sm">Meu Hackathon 2025</span>
-                <i class="bi bi-chevron-down text-xs text-discord-text"></i>
-            </div>
-            
-            <!-- Stats em tempo real -->
-            <div x-show="started" x-transition class="bg-discord-dark/50 px-3 py-2 border-b border-discord-dark/50">
-                <div class="grid grid-cols-2 gap-2 text-[10px]">
-                    <div class="flex items-center gap-1">
-                        <i class="bi bi-hash text-discord-blurple"></i>
-                        <span class="text-discord-muted">Canais:</span>
-                        <span class="text-white font-bold" x-text="stats.channels"></span>
-                    </div>
-                    <div class="flex items-center gap-1">
-                        <i class="bi bi-people-fill text-purple-400"></i>
-                        <span class="text-discord-muted">Cargos:</span>
-                        <span class="text-white font-bold" x-text="stats.roles"></span>
-                    </div>
-                    <div class="flex items-center gap-1">
-                        <i class="bi bi-shield-fill text-orange-400"></i>
-                        <span class="text-discord-muted">Regras:</span>
-                        <span class="text-white font-bold" x-text="stats.permissions * stats.roles"></span>
-                    </div>
-                    <div class="flex items-center gap-1">
-                        <i class="bi bi-collection-fill text-green-400"></i>
-                        <span class="text-discord-muted">Equipes:</span>
-                        <span class="text-white font-bold" x-text="stats.teams"></span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Lista de Canais (Dinâmica) -->
-            <div class="flex-1 overflow-y-auto p-2 space-y-0.5">
-                
-                <!-- Estado Inicial: Vazio -->
-                <div x-show="serverStructure.length === 0" class="text-center py-10 px-4">
-                    <div class="w-12 h-12 bg-discord-bg rounded-xl flex items-center justify-center mx-auto mb-3 opacity-50">
-                        <i class="bi bi-folder2-open text-2xl text-discord-muted"></i>
-                    </div>
-                    <p class="text-xs text-discord-muted">O servidor está vazio.<br>Inicie o bot para estruturar.</p>
-                </div>
+    <!-- ==================== ORGANIZER DASHBOARD ==================== -->
+    <div x-show="view === 'organizer-dash'" x-transition:enter="transition ease-out duration-300"
+        class="min-h-screen flex bg-discord-bg font-space overflow-hidden">
 
-                <!-- Renderização Dinâmica dos Canais -->
-                <template x-for="(item, index) in serverStructure" :key="index">
-                    <div class="channel-enter">
-                        <!-- Categoria -->
-                        <template x-if="item.type === 'category'">
-                            <div class="text-[10px] font-bold text-discord-muted uppercase px-1 py-1.5 mt-3 first:mt-0 hover:text-discord-text cursor-pointer flex items-center gap-1 select-none">
-                                <i class="bi bi-chevron-down text-[8px]"></i>
-                                <span x-text="item.name"></span>
-                            </div>
-                        </template>
-                        
-                        <!-- Canal de Texto -->
-                        <template x-if="item.type === 'text'">
-                            <div class="group px-2 py-1 rounded hover:bg-discord-hover text-discord-muted hover:text-discord-text flex items-center gap-1.5 cursor-pointer ml-1 transition-colors">
-                                <span class="text-lg leading-none opacity-60">#</span>
-                                <span class="text-sm flex-1 truncate" x-text="item.name"></span>
-                                <i x-show="item.locked" class="bi bi-lock-fill text-[10px] opacity-40"></i>
-                            </div>
-                        </template>
-                        
-                        <!-- Canal de Voz -->
-                        <template x-if="item.type === 'voice'">
-                            <div class="group px-2 py-1 rounded hover:bg-discord-hover text-discord-muted hover:text-discord-text flex items-center gap-1.5 cursor-pointer ml-1 transition-colors">
-                                <i class="bi bi-volume-up-fill text-base opacity-60"></i>
-                                <span class="text-sm flex-1 truncate" x-text="item.name"></span>
-                                <i x-show="item.locked" class="bi bi-lock-fill text-[10px] opacity-40"></i>
-                            </div>
-                        </template>
-                    </div>
-                </template>
-
-            </div>
-            
-            <!-- User Status -->
-            <div class="h-14 bg-discord-dark/80 px-2 flex items-center gap-2 flex-shrink-0">
-                <div class="w-8 h-8 rounded-full bg-discord-blurple flex items-center justify-center">
-                    <i class="bi bi-person-fill text-white"></i>
-                </div>
-                <div class="flex-1 min-w-0">
-                    <div class="text-xs font-bold text-white">Organizador</div>
-                    <div class="text-[10px] text-discord-muted">#0001</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 3. PAINEL PRINCIPAL (Console do Bot) -->
-        <div class="flex-1 flex flex-col bg-discord-bg min-w-0 relative">
-            
-            <!-- Topbar -->
-            <div class="h-12 px-4 flex items-center border-b border-discord-dark shadow-sm bg-discord-bg">
-                <i class="bi bi-hash text-discord-muted text-2xl mr-2"></i>
-                <span class="font-bold text-white">painel-bot-setup</span>
-                <span class="ml-4 text-xs text-discord-muted hidden md:inline-block">Configuração automática do evento</span>
+        <!-- Sidebar -->
+        <aside class="w-64 bg-discord-card border-r border-discord-dark flex flex-col hidden md:flex">
+            <div class="h-16 flex items-center px-6 border-b border-discord-dark">
+                <span class="font-bold text-white text-lg"><i class="bi bi-robot text-discord-blurple mr-2"></i>
+                    HackaManager</span>
             </div>
 
-            <!-- Área de Conteúdo -->
-            <div class="flex-1 p-6 overflow-y-auto flex flex-col items-center justify-center">
-                
-                <!-- Estado 0: Botão de Início -->
-                <div x-show="!started && !finished" class="text-center max-w-lg">
-                    <div class="w-20 h-20 bg-discord-card rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl border border-discord-blurple/30">
-                        <i class="bi bi-magic text-4xl text-discord-blurple"></i>
-                    </div>
-                    <h2 class="text-2xl font-bold text-white mb-2">Vamos configurar seu Hackathon?</h2>
-                    <p class="text-discord-muted mb-8">
-                        O bot irá criar categorias, canais, cargos e a página de inscrição automaticamente. Isso faz parte do <strong>Plano A (R$ 200)</strong>.
-                    </p>
-                    <button @click="startSimulation()" class="bg-discord-blurple hover:bg-opacity-80 text-white px-8 py-3 rounded-lg font-bold text-lg shadow-lg shadow-discord-blurple/20 transition-all hover:-translate-y-1">
-                        <i class="bi bi-play-fill"></i> Gerar Estrutura Agora
+            <nav class="flex-1 p-4 space-y-2">
+                <a href="#"
+                    class="block px-4 py-2 rounded bg-discord-blurple/10 text-discord-blurple font-medium border-l-2 border-discord-blurple">
+                    <i class="bi bi-sliders mr-2"></i> Configuração
+                </a>
+                <a href="#"
+                    class="block px-4 py-2 rounded text-discord-muted hover:bg-discord-dark hover:text-white transition-colors">
+                    <i class="bi bi-people mr-2"></i> Participantes <span
+                        class="text-xs bg-discord-dark px-2 py-0.5 rounded-full ml-auto">0</span>
+                </a>
+                <a href="#"
+                    class="block px-4 py-2 rounded text-discord-muted hover:bg-discord-dark hover:text-white transition-colors">
+                    <i class="bi bi-kanban mr-2"></i> Projetos
+                </a>
+            </nav>
+
+            <div class="p-4 border-t border-discord-dark">
+                <button @click="view = 'landing'"
+                    class="text-xs text-red-400 hover:text-red-300 flex items-center w-full hover:bg-discord-dark p-2 rounded transition-colors">
+                    <i class="bi bi-box-arrow-left mr-2"></i> Sair do Painel
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col min-w-0 overflow-hidden relative">
+            <!-- Header -->
+            <header
+                class="h-16 bg-discord-bg border-b border-discord-dark flex items-center justify-between px-4 md:px-8">
+                <h1 class="text-xl font-bold text-white flex items-center gap-2">
+                    <i class="bi bi-pencil-square md:hidden"></i>
+                    <span class="truncate">Configuração do Evento</span>
+                </h1>
+                <div class="flex gap-3">
+                    <button
+                        class="px-4 py-2 rounded bg-discord-dark text-discord-muted hover:text-white text-sm font-medium hidden sm:block shadow-sm border border-white/5">
+                        Salvar Rascunho
+                    </button>
+                    <button @click="saveEventAndPublish()"
+                        class="px-4 py-2 rounded bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-bold shadow-lg shadow-emerald-600/20 transition-all hover:-translate-y-0.5 flex items-center gap-2">
+                        <i class="bi bi-rocket-fill"></i> <span class="hidden sm:inline">Publicar &
+                            Visualizar</span><span class="sm:hidden">Publicar</span>
                     </button>
                 </div>
+            </header>
 
-                <!-- Estado 1: Rodando (Terminal) -->
-                <div x-show="started" class="w-full max-w-2xl bg-discord-dark rounded-xl border border-black/20 shadow-2xl overflow-hidden font-mono text-sm">
-                    <div class="bg-discord-card px-4 py-2 border-b border-black/20 flex gap-2">
-                        <div class="w-3 h-3 rounded-full bg-red-500"></div>
-                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
-                        <span class="ml-2 text-xs text-discord-muted">bot_setup.exe</span>
-                    </div>
-                    <div class="p-4 h-80 overflow-y-auto space-y-2" id="console-output">
-                        <template x-for="log in logs">
-                            <div class="flex gap-2">
-                                <span class="text-discord-blurple">➜</span>
-                                <span :class="log.color" x-text="log.text"></span>
+            <!-- Scrollable Form Area -->
+            <div class="flex-1 overflow-y-auto p-4 md:p-8">
+                <div class="max-w-4xl mx-auto space-y-8">
+
+                    <!-- Section: Basic Info -->
+                    <div class="bg-discord-card rounded-xl p-6 border border-white/5 shadow-sm">
+                        <h2
+                            class="text-lg font-bold text-white mb-4 border-b border-white/5 pb-2 flex items-center gap-2">
+                            <i class="bi bi-info-circle text-discord-blurple"></i> Informações Básicas
+                        </h2>
+                        <div class="grid gap-6">
+                            <div>
+                                <label class="block text-xs font-bold text-discord-muted uppercase mb-2">Nome do
+                                    Hackathon</label>
+                                <input type="text" x-model="eventData.name"
+                                    class="w-full bg-discord-dark border border-black/20 rounded p-3 text-white focus:outline-none focus:border-discord-blurple transition-colors placeholder-discord-muted/50 focus:ring-1 focus:ring-discord-blurple">
                             </div>
-                        </template>
-                        <!-- Cursor piscando -->
-                        <div x-show="!finished" class="animate-pulse text-discord-blurple">_</div>
-                        
-                        <!-- Botão Final -->
-                        <div x-show="finished" class="pt-4 mt-4 border-t border-white/5 text-center fade-in">
-                            <p class="text-green-400 font-bold mb-3">✅ Evento Criado com Sucesso!</p>
-                            <div class="flex gap-3 justify-center">
-                                <button class="bg-discord-blurple text-white px-4 py-2 rounded text-xs hover:bg-opacity-80">
-                                    Ver Página de Inscrição
-                                </button>
-                                <button class="bg-discord-card text-white px-4 py-2 rounded text-xs hover:bg-opacity-80 border border-white/10">
-                                    Baixar Checklist PDF
-                                </button>
+                            <div>
+                                <label class="block text-xs font-bold text-discord-muted uppercase mb-2">Descrição
+                                    Curta</label>
+                                <textarea x-model="eventData.description" rows="3"
+                                    class="w-full bg-discord-dark border border-black/20 rounded p-3 text-white focus:outline-none focus:border-discord-blurple transition-colors resize-none focus:ring-1 focus:ring-discord-blurple"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section: Dates & Links -->
+                    <div class="bg-discord-card rounded-xl p-6 border border-white/5 shadow-sm">
+                        <h2
+                            class="text-lg font-bold text-white mb-4 border-b border-white/5 pb-2 flex items-center gap-2">
+                            <i class="bi bi-calendar-event text-discord-blurple"></i> Data e Comunicação
+                        </h2>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-xs font-bold text-discord-muted uppercase mb-2">Início</label>
+                                <input type="date" x-model="eventData.startDate"
+                                    class="w-full bg-discord-dark border border-black/20 rounded p-3 text-white focus:outline-none focus:border-discord-blurple [color-scheme:dark]">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-discord-muted uppercase mb-2">Link do
+                                    Discord</label>
+                                <input type="url" x-model="eventData.discordLink"
+                                    class="w-full bg-discord-dark border border-black/20 rounded p-3 text-white focus:outline-none focus:border-discord-blurple text-blue-400">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section: Rules & Prizes -->
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-discord-card rounded-xl p-6 border border-white/5 shadow-sm">
+                            <h2
+                                class="text-lg font-bold text-white mb-4 border-b border-white/5 pb-2 flex items-center gap-2">
+                                <i class="bi bi-file-text text-discord-blurple"></i> Regras
+                            </h2>
+                            <textarea x-model="eventData.rules" rows="6"
+                                class="w-full bg-discord-dark border border-black/20 rounded p-3 text-white focus:outline-none focus:border-discord-blurple resize-none text-sm font-mono"></textarea>
+                        </div>
+                        <div class="bg-discord-card rounded-xl p-6 border border-white/5 shadow-sm">
+                            <h2
+                                class="text-lg font-bold text-white mb-4 border-b border-white/5 pb-2 flex items-center gap-2">
+                                <i class="bi bi-trophy text-discord-blurple"></i> Premiação
+                            </h2>
+                            <textarea x-model="eventData.prizes" rows="6"
+                                class="w-full bg-discord-dark border border-black/20 rounded p-3 text-white focus:outline-none focus:border-discord-blurple resize-none text-sm font-mono"></textarea>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+        <!-- ==================== PUBLIC PAGE ==================== -->
+        <div x-show="view === 'public-page'" x-transition:enter="transition ease-out duration-300"
+            class="min-h-screen flex flex-col bg-[#0f0f12] font-space text-white overflow-y-auto">
+
+            <!-- Hero Public -->
+            <header class="relative px-6 py-20 text-center overflow-hidden">
+                <div
+                    class="absolute inset-0 bg-gradient-to-b from-discord-blurple/20 to-transparent pointer-events-none">
+                </div>
+
+                <div class="relative z-10 max-w-3xl mx-auto">
+                    <div class="inline-block bg-white/10 px-3 py-1 rounded-full text-sm mb-4 backdrop-blur-sm">🚀
+                        Inscrições Abertas</div>
+                    <h1 class="text-5xl md:text-7xl font-bold mb-6" x-text="eventData.name"></h1>
+                    <p class="text-xl text-gray-400 mb-8" x-text="eventData.description"></p>
+
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <button @click="document.getElementById('inscription-modal').showModal()"
+                            class="bg-white text-black px-8 py-4 rounded-full text-lg font-bold hover:scale-105 transition-transform">
+                            Inscrever-se Agora
+                        </button>
+                        <a :href="eventData.discordLink" target="_blank"
+                            class="bg-discord-blurple text-white px-8 py-4 rounded-full text-lg font-bold hover:bg-opacity-90 transition-transform flex items-center justify-center gap-2">
+                            <i class="bi bi-discord"></i> Entrar no Discord
+                        </a>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Info Grid -->
+            <section class="max-w-5xl mx-auto px-6 py-12 grid md:grid-cols-3 gap-8 w-full">
+                <div class="bg-white/5 p-6 rounded-2xl border border-white/10">
+                    <div class="text-discord-blurple text-xl mb-2"><i class="bi bi-calendar-check"></i> Quando?</div>
+                    <div class="text-2xl font-bold" x-text="new Date(eventData.startDate).toLocaleDateString('pt-BR')">
+                    </div>
+                    <div class="text-sm text-gray-400 mt-1">até <span
+                            x-text="new Date(eventData.endDate).toLocaleDateString('pt-BR')"></span></div>
+                </div>
+                <div class="bg-white/5 p-6 rounded-2xl border border-white/10">
+                    <div class="text-green-400 text-xl mb-2"><i class="bi bi-trophy"></i> Prêmios</div>
+                    <div class="whitespace-pre-line text-sm" x-text="eventData.prizes"></div>
+                </div>
+                <div class="bg-white/5 p-6 rounded-2xl border border-white/10">
+                    <div class="text-orange-400 text-xl mb-2"><i class="bi bi-file-text"></i> Regras</div>
+                    <div class="line-clamp-4 text-sm whitespace-pre-line text-gray-300" x-text="eventData.rules"></div>
+                </div>
+            </section>
+
+            <div class="text-center pb-20">
+                <button @click="view = 'organizer-dash'" class="text-gray-600 hover:text-white text-sm">
+                    <i class="bi bi-arrow-left"></i> Voltar para Editor (Organizador)
+                </button>
+            </div>
+
+            <!-- Modal Inscrição -->
+            <dialog id="inscription-modal"
+                class="bg-discord-card text-white p-8 rounded-2xl backdrop:bg-black/80 w-full max-w-md border border-white/10 shadow-2xl">
+                <h2 class="text-2xl font-bold mb-6">Junte-se ao Hackathon</h2>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase mb-2">Seu Nome</label>
+                        <input type="text" x-model="participantData.name"
+                            class="w-full bg-black/30 border border-white/10 rounded p-3 focus:border-discord-blurple focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase mb-2">Seu Email</label>
+                        <input type="email" x-model="participantData.email"
+                            class="w-full bg-black/30 border border-white/10 rounded p-3 focus:border-discord-blurple focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 uppercase mb-2">Sua Função</label>
+                        <select x-model="participantData.role"
+                            class="w-full bg-black/30 border border-white/10 rounded p-3 focus:border-discord-blurple focus:outline-none">
+                            <option>Developer</option>
+                            <option>Designer</option>
+                            <option>Business/PM</option>
+                            <option>Curioso</option>
+                        </select>
+                    </div>
+                    <button @click="registerParticipant(); document.getElementById('inscription-modal').close()"
+                        class="w-full bg-discord-blurple hover:bg-opacity-90 py-3 rounded-lg font-bold mt-4">
+                        Confirmar Inscrição
+                    </button>
+                </div>
+                <button onclick="document.getElementById('inscription-modal').close()"
+                    class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </dialog>
+        </div>
+
+        <!-- ==================== PARTICIPANT DASHBOARD ==================== -->
+        <div x-show="view === 'participant-dash'" x-transition:enter="transition ease-out duration-300"
+            class="min-h-screen flex bg-discord-bg font-space overflow-hidden">
+
+            <!-- Sidebar Participant -->
+            <aside
+                class="w-20 lg:w-64 bg-[#2f3136] border-r border-[#202225] flex flex-col items-center lg:items-stretch">
+                <div class="h-16 flex items-center justify-center lg:justify-start lg:px-6 border-b border-[#202225]">
+                    <i class="bi bi-code-square text-discord-blurple text-2xl lg:mr-3"></i>
+                    <span class="font-bold text-white text-lg hidden lg:block">HackaArea</span>
+                </div>
+
+                <div class="p-4 flex flex-col gap-2">
+                    <a href="#"
+                        class="flex items-center gap-3 px-3 py-2 rounded bg-discord-blurple/10 text-discord-blurple">
+                        <i class="bi bi-grid-fill text-xl"></i>
+                        <span class="hidden lg:block font-medium">Dashboard</span>
+                    </a>
+                    <a @click="view = 'kanban'" href="#"
+                        class="flex items-center gap-3 px-3 py-2 rounded text-gray-400 hover:bg-[#40444b] hover:text-white transition-colors cursor-pointer">
+                        <i class="bi bi-kanban text-xl"></i>
+                        <span class="hidden lg:block font-medium">Board Tarefas</span>
+                    </a>
+                </div>
+
+                <div class="mt-auto p-4 border-t border-[#202225]">
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-500 to-pink-500 flex items-center justify-center font-bold text-white">
+                            <span x-text="participantData.name.charAt(0)"></span>
+                        </div>
+                        <div class="hidden lg:block overflow-hidden">
+                            <div class="text-sm font-bold text-white truncate" x-text="participantData.name"></div>
+                            <div class="text-xs text-gray-400 truncate" x-text="participantData.role"></div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <main class="flex-1 p-8 overflow-y-auto">
+                <header class="mb-8">
+                    <h1 class="text-3xl font-bold text-white mb-2">Bem-vindo, <span
+                            x-text="participantData.name.split(' ')[0]"></span>! 👋</h1>
+                    <p class="text-gray-400">Aqui você gerencia sua participação e seu time.</p>
+                </header>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Card Equipe -->
+                    <div class="bg-[#2f3136] rounded-xl p-6 border border-white/5 col-span-2">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-xl font-bold text-white"><i
+                                    class="bi bi-people-fill text-discord-blurple mr-2"></i> Minha Equipe</h2>
+                            <span class="bg-green-500/10 text-green-400 px-3 py-1 rounded-full text-xs font-bold">4/5
+                                Membros</span>
+                        </div>
+
+                        <div class="space-y-4 mb-6">
+                            <template x-for="(member, idx) in team.members" :key="idx">
+                                <div class="flex items-center justify-between bg-[#202225] p-3 rounded-lg">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center text-xs text-white"
+                                            x-text="member.name.charAt(0)"></div>
+                                        <div>
+                                            <div class="text-sm font-bold text-white" x-text="member.name"></div>
+                                            <div class="text-xs text-gray-400" x-text="member.email"></div>
+                                        </div>
+                                    </div>
+                                    <button @click="removeTeamMember(idx)" class="text-gray-500 hover:text-red-400"
+                                        x-show="idx !== 0">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </template>
+                        </div>
+
+                        <div class="flex gap-2">
+                            <input type="email" x-model="team.inviteEmail" placeholder="Email do colega..."
+                                class="flex-1 bg-[#202225] border border-black/20 rounded p-2 text-white text-sm focus:outline-none focus:border-discord-blurple">
+                            <button @click="addTeamMember()"
+                                class="bg-discord-blurple hover:bg-opacity-90 text-white px-4 py-2 rounded text-sm font-bold">
+                                Convidar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Card Status -->
+                    <div class="bg-[#2f3136] rounded-xl p-6 border border-white/5">
+                        <h2 class="text-xl font-bold text-white mb-4">Próxima Entrega</h2>
+                        <div class="text-center py-8">
+                            <div class="text-4xl font-bold text-white mb-2">04:23:10</div>
+                            <div class="text-sm text-gray-400">Tempo restante para Checkpoint 1</div>
+                            <div class="mt-6 w-full bg-gray-700 rounded-full h-2">
+                                <div class="bg-green-500 h-2 rounded-full" style="width: 70%"></div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-            </div>
+                <div
+                    class="mt-8 bg-gradient-to-r from-discord-blurple to-purple-600 rounded-xl p-8 text-white flex items-center justify-between shadow-lg">
+                    <div>
+                        <h3 class="text-2xl font-bold mb-2">Gerencie seu Projeto</h3>
+                        <p class="opacity-80">Organize tarefas, atribua responsáveis e acompanhe o progresso.</p>
+                    </div>
+                    <button @click="view = 'kanban'"
+                        class="bg-white text-discord-blurple px-6 py-3 rounded-lg font-bold hover:scale-105 transition-transform">
+                        Abrir Kanban Board <i class="bi bi-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </main>
         </div>
 
+    <!-- ==================== KANBAN BOARD ==================== -->
+    <div x-show="view === 'kanban'" x-transition:enter="transition ease-out duration-300"
+         class="min-h-screen flex flex-col bg-[#202225] font-space overflow-hidden">
+         
+        <!-- Header Kanban -->
+        <header class="h-16 bg-[#2f3136] border-b border-black/20 flex items-center px-6 gap-4 flex-shrink-0">
+            <button @click="view = 'participant-dash'" class="text-gray-400 hover:text-white">
+                <i class="bi bi-arrow-left text-xl"></i>
+            </button>
+            <h1 class="text-lg font-bold text-white flex-1">Board do Projeto: <span class="text-discord-blurple">HackaBot MVP</span></h1>
+            
+            <div class="flex items-center gap-2">
+                <div class="flex -space-x-2 mr-4">
+                     <template x-for="(m, i) in team.members.slice(0,3)">
+                        <div class="w-8 h-8 rounded-full border-2 border-[#2f3136] bg-gray-600 flex items-center justify-center text-xs text-white" x-text="m.name.charAt(0)"></div>
+                     </template>
+                </div>
+                <button class="bg-discord-blurple text-white px-3 py-1.5 rounded text-sm font-bold flex items-center gap-2">
+                    <i class="bi bi-share-fill"></i> Compartilhar
+                </button>
+            </div>
+        </header>
+
+        <!-- Board Area -->
+        <div class="flex-1 overflow-x-auto overflow-y-hidden p-6">
+            <div class="flex h-full gap-6 min-w-[1000px]">
+                
+                <!-- Coluna TODO -->
+                <div class="flex-1 bg-[#2f3136] rounded-xl flex flex-col max-w-sm">
+                    <div class="p-4 border-b border-black/10 flex justify-between items-center">
+                        <span class="font-bold text-gray-300 uppercase text-xs tracking-wider">A Fazer</span>
+                        <span class="bg-black/20 text-gray-400 px-2 py-0.5 rounded text-xs" x-text="tasks.filter(t => t.status === 'todo').length">0</span>
+                    </div>
+                    <div class="p-3 flex-1 overflow-y-auto space-y-3">
+                        <template x-for="task in tasks.filter(t => t.status === 'todo')" :key="task.id">
+                            <div class="bg-[#36393f] p-3 rounded shadow hover:bg-[#40444b] group cursor-grab active:cursor-grabbing border border-black/10">
+                                <div class="text-sm text-gray-200 mb-2" x-text="task.title"></div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-[10px] bg-red-500/10 text-red-300 px-1.5 py-0.5 rounded" x-text="task.assignee"></span>
+                                    <button @click="kanbanMoveTask(task, 'doing')" class="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-white transition-opacity">
+                                        <i class="bi bi-arrow-right-circle-fill"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </template>
+                        
+                        <!-- Add Task Input -->
+                        <div class="mt-2">
+                            <input type="text" x-model="newTaskTitle" @keydown.enter="kanbanAddTask()" placeholder="+ Nova Tarefa (Enter)" class="w-full bg-transparent border border-dashed border-gray-600 rounded p-2 text-sm text-gray-300 focus:outline-none focus:border-discord-blurple">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Coluna DOING -->
+                <div class="flex-1 bg-[#2f3136] rounded-xl flex flex-col max-w-sm">
+                    <div class="p-4 border-b border-black/10 flex justify-between items-center">
+                        <span class="font-bold text-blue-400 uppercase text-xs tracking-wider">Em Progresso</span>
+                        <span class="bg-black/20 text-gray-400 px-2 py-0.5 rounded text-xs" x-text="tasks.filter(t => t.status === 'doing').length">0</span>
+                    </div>
+                    <div class="p-3 flex-1 overflow-y-auto space-y-3">
+                         <template x-for="task in tasks.filter(t => t.status === 'doing')" :key="task.id">
+                            <div class="bg-[#36393f] p-3 rounded shadow hover:bg-[#40444b] border-l-4 border-blue-400">
+                                <div class="text-sm text-gray-200 mb-2" x-text="task.title"></div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-[10px] bg-blue-500/10 text-blue-300 px-1.5 py-0.5 rounded" x-text="task.assignee"></span>
+                                    <div class="flex gap-1">
+                                        <button @click="kanbanMoveTask(task, 'todo')" class="text-gray-500 hover:text-white"><i class="bi bi-arrow-left-short"></i></button>
+                                        <button @click="kanbanMoveTask(task, 'done')" class="text-green-500 hover:text-green-400"><i class="bi bi-check-circle-fill"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+                <!-- Coluna DONE -->
+                <div class="flex-1 bg-[#2f3136] rounded-xl flex flex-col max-w-sm">
+                    <div class="p-4 border-b border-black/10 flex justify-between items-center">
+                        <span class="font-bold text-green-400 uppercase text-xs tracking-wider">Concluído</span>
+                        <span class="bg-black/20 text-gray-400 px-2 py-0.5 rounded text-xs" x-text="tasks.filter(t => t.status === 'done').length">0</span>
+                    </div>
+                    <div class="p-3 flex-1 overflow-y-auto space-y-3">
+                         <template x-for="task in tasks.filter(t => t.status === 'done')" :key="task.id">
+                            <div class="bg-[#36393f] p-3 rounded shadow opacity-60 hover:opacity-100 transition-opacity">
+                                <div class="text-sm text-gray-400 line-through mb-2" x-text="task.title"></div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-[10px] bg-green-500/10 text-green-300 px-1.5 py-0.5 rounded" x-text="task.assignee"></span>
+                                    <button @click="kanbanMoveTask(task, 'doing')" class="text-gray-500 hover:text-white"><i class="bi bi-arrow-left-short"></i></button>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
 
-    <script>
-        function app() {
-            return {
-                view: 'landing', // 'landing' ou 'demo'
-                started: false,
-                finished: false,
-                progress: 0,
-                logs: [],
-                serverStructure: [],
-                stats: { channels: 0, roles: 0, permissions: 0, teams: 0 },
-                
-                // Estrutura completa do servidor
-                fullServerStructure: [
-                    { type: 'category', name: 'INTERAÇÃO' },
-                    { type: 'text', name: '📍-check-in', locked: false },
-                    { type: 'text', name: '🦉-tô-perdido', locked: false },
-                    { type: 'text', name: '💬-bate-papo', locked: false },
-                    { type: 'text', name: '📸-tô-no-hackathon', locked: true },
-                    { type: 'text', name: '🌎-networking', locked: true },
-                    { type: 'text', name: '❓-tire-sua-dúvida', locked: true },
-                    { type: 'category', name: 'IMPORTANTE ⬇️' },
-                    { type: 'text', name: '🔔-avisos', locked: true },
-                    { type: 'text', name: '📅-programação-lives', locked: true },
-                    { type: 'text', name: '🔥-entregas', locked: true },
-                    { type: 'text', name: '🚀-desafios', locked: true },
-                    { type: 'text', name: '📄-regras', locked: true },
-                    { type: 'text', name: '🏆-premiação', locked: true },
-                    { type: 'category', name: 'MENTORIA' },
-                    { type: 'text', name: '🎫-abrir-ticket', locked: true },
-                    { type: 'text', name: '📚-materiais-apoio', locked: true },
-                    { type: 'text', name: '🗓️-agenda-mentores', locked: true },
-                    { type: 'category', name: 'MONTAGEM DE TIMES' },
-                    { type: 'text', name: '🙋-tô-sem-time', locked: true },
-                    { type: 'text', name: '🧩-criar-time', locked: true },
-                    { type: 'text', name: '🔍-buscar-habilidades', locked: true },
-                    { type: 'category', name: 'STAFF' },
-                    { type: 'text', name: '🔧-painel-admin', locked: true },
-                    { type: 'text', name: '📊-dashboard', locked: true },
-                    { type: 'text', name: '🚨-reports', locked: true },
-                    { type: 'category', name: '═══ EQUIPES ═══' },
-                ],
-                
-                // Gera 50 equipes
-                generateTeams() {
-                    const teams = [];
-                    for (let i = 1; i <= 50; i++) {
-                        const num = String(i).padStart(3, '0');
-                        teams.push({ type: 'voice', name: `🔊 equipe-${num}`, locked: false, isTeam: true });
-                        teams.push({ type: 'text', name: `💬-chat-${num}`, locked: true, isTeam: true });
-                    }
-                    return teams;
-                },
-                
-                async populateServerStructure() {
-                    // Primeiro adiciona a estrutura base
-                    for (let i = 0; i < this.fullServerStructure.length; i++) {
-                        this.serverStructure.push(this.fullServerStructure[i]);
-                        this.stats.channels++;
-                        await this.wait(150);
-                    }
-                    
-                    // Depois adiciona as 50 equipes rapidamente
-                    const teams = this.generateTeams();
-                    for (let i = 0; i < teams.length; i++) {
-                        this.serverStructure.push(teams[i]);
-                        this.stats.channels++;
-                        if (teams[i].type === 'voice') {
-                            this.stats.teams++;
+        <div x-show="view === 'demo'" x-transition:enter="transition ease-out duration-300"
+            class="min-h-screen flex bg-discord-bg overflow-hidden font-space">
+
+            <!-- 1. BARRA DE SERVIDORES (Esquerda) -->
+            <div class="w-[72px] bg-discord-dark flex flex-col items-center py-3 gap-2 flex-shrink-0 z-20">
+                <!-- Botão Voltar -->
+                <button @click="view = 'landing'"
+                    class="w-12 h-12 bg-discord-card hover:bg-red-500 text-white rounded-[24px] hover:rounded-[16px] flex items-center justify-center transition-all mb-2"
+                    title="Sair da Demo">
+                    <i class="bi bi-x-lg text-xl"></i>
+                </button>
+                <div class="w-8 h-0.5 bg-discord-card rounded-full mb-1"></div>
+
+                <!-- Servidor Ativo (Sendo criado) -->
+                <button
+                    class="w-12 h-12 bg-discord-blurple text-white rounded-[16px] flex items-center justify-center transition-all relative">
+                    <i class="bi bi-rocket-takeoff-fill text-xl"></i>
+                </button>
+
+                <!-- Placeholder Servidor 2 -->
+                <button
+                    class="w-12 h-12 bg-discord-card hover:bg-discord-success text-discord-success hover:text-white rounded-[24px] hover:rounded-[16px] flex items-center justify-center transition-all mt-2">
+                    <i class="bi bi-plus-lg text-xl"></i>
+                </button>
+            </div>
+
+            <!-- 2. BARRA DE CANAIS (A Mágica acontece aqui) -->
+            <div class="w-60 bg-discord-card flex flex-col flex-shrink-0 border-r border-discord-dark/50">
+                <!-- Header do Servidor -->
+                <div class="h-12 px-4 flex items-center justify-between border-b border-discord-dark shadow-sm">
+                    <span class="font-bold text-white truncate text-sm">Meu Hackathon 2025</span>
+                    <i class="bi bi-chevron-down text-xs text-discord-text"></i>
+                </div>
+
+                <!-- Stats em tempo real -->
+                <div x-show="started" x-transition class="bg-discord-dark/50 px-3 py-2 border-b border-discord-dark/50">
+                    <div class="grid grid-cols-2 gap-2 text-[10px]">
+                        <div class="flex items-center gap-1">
+                            <i class="bi bi-hash text-discord-blurple"></i>
+                            <span class="text-discord-muted">Canais:</span>
+                            <span class="text-white font-bold" x-text="stats.channels"></span>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <i class="bi bi-people-fill text-purple-400"></i>
+                            <span class="text-discord-muted">Cargos:</span>
+                            <span class="text-white font-bold" x-text="stats.roles"></span>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <i class="bi bi-shield-fill text-orange-400"></i>
+                            <span class="text-discord-muted">Regras:</span>
+                            <span class="text-white font-bold" x-text="stats.permissions * stats.roles"></span>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <i class="bi bi-collection-fill text-green-400"></i>
+                            <span class="text-discord-muted">Equipes:</span>
+                            <span class="text-white font-bold" x-text="stats.teams"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lista de Canais (Dinâmica) -->
+                <div class="flex-1 overflow-y-auto p-2 space-y-0.5">
+
+                    <!-- Estado Inicial: Vazio -->
+                    <div x-show="serverStructure.length === 0" class="text-center py-10 px-4">
+                        <div
+                            class="w-12 h-12 bg-discord-bg rounded-xl flex items-center justify-center mx-auto mb-3 opacity-50">
+                            <i class="bi bi-folder2-open text-2xl text-discord-muted"></i>
+                        </div>
+                        <p class="text-xs text-discord-muted">O servidor está vazio.<br>Inicie o bot para estruturar.
+                        </p>
+                    </div>
+
+                    <!-- Renderização Dinâmica dos Canais -->
+                    <template x-for="(item, index) in serverStructure" :key="index">
+                        <div class="channel-enter">
+                            <!-- Categoria -->
+                            <template x-if="item.type === 'category'">
+                                <div
+                                    class="text-[10px] font-bold text-discord-muted uppercase px-1 py-1.5 mt-3 first:mt-0 hover:text-discord-text cursor-pointer flex items-center gap-1 select-none">
+                                    <i class="bi bi-chevron-down text-[8px]"></i>
+                                    <span x-text="item.name"></span>
+                                </div>
+                            </template>
+
+                            <!-- Canal de Texto -->
+                            <template x-if="item.type === 'text'">
+                                <div
+                                    class="group px-2 py-1 rounded hover:bg-discord-hover text-discord-muted hover:text-discord-text flex items-center gap-1.5 cursor-pointer ml-1 transition-colors">
+                                    <span class="text-lg leading-none opacity-60">#</span>
+                                    <span class="text-sm flex-1 truncate" x-text="item.name"></span>
+                                    <i x-show="item.locked" class="bi bi-lock-fill text-[10px] opacity-40"></i>
+                                </div>
+                            </template>
+
+                            <!-- Canal de Voz -->
+                            <template x-if="item.type === 'voice'">
+                                <div
+                                    class="group px-2 py-1 rounded hover:bg-discord-hover text-discord-muted hover:text-discord-text flex items-center gap-1.5 cursor-pointer ml-1 transition-colors">
+                                    <i class="bi bi-volume-up-fill text-base opacity-60"></i>
+                                    <span class="text-sm flex-1 truncate" x-text="item.name"></span>
+                                    <i x-show="item.locked" class="bi bi-lock-fill text-[10px] opacity-40"></i>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+
+                </div>
+
+                <!-- User Status -->
+                <div class="h-14 bg-discord-dark/80 px-2 flex items-center gap-2 flex-shrink-0">
+                    <div class="w-8 h-8 rounded-full bg-discord-blurple flex items-center justify-center">
+                        <i class="bi bi-person-fill text-white"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="text-xs font-bold text-white">Organizador</div>
+                        <div class="text-[10px] text-discord-muted">#0001</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. PAINEL PRINCIPAL (Console do Bot) -->
+            <div class="flex-1 flex flex-col bg-discord-bg min-w-0 relative">
+
+                <!-- Topbar -->
+                <div class="h-12 px-4 flex items-center border-b border-discord-dark shadow-sm bg-discord-bg">
+                    <i class="bi bi-hash text-discord-muted text-2xl mr-2"></i>
+                    <span class="font-bold text-white">painel-bot-setup</span>
+                    <span class="ml-4 text-xs text-discord-muted hidden md:inline-block">Configuração automática do
+                        evento</span>
+                </div>
+
+                <!-- Área de Conteúdo -->
+                <div class="flex-1 p-6 overflow-y-auto flex flex-col items-center justify-center">
+
+                    <!-- Estado 0: Botão de Início -->
+                    <div x-show="!started && !finished" class="text-center max-w-lg">
+                        <div
+                            class="w-20 h-20 bg-discord-card rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl border border-discord-blurple/30">
+                            <i class="bi bi-magic text-4xl text-discord-blurple"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-white mb-2">Vamos configurar seu Hackathon?</h2>
+                        <p class="text-discord-muted mb-8">
+                            O bot irá criar categorias, canais, cargos e a página de inscrição automaticamente. Isso faz
+                            parte do <strong>Plano A (R$ 200)</strong>.
+                        </p>
+                        <button @click="startSimulation()"
+                            class="bg-discord-blurple hover:bg-opacity-80 text-white px-8 py-3 rounded-lg font-bold text-lg shadow-lg shadow-discord-blurple/20 transition-all hover:-translate-y-1">
+                            <i class="bi bi-play-fill"></i> Gerar Estrutura Agora
+                        </button>
+                    </div>
+
+                    <!-- Estado 1: Rodando (Terminal) -->
+                    <div x-show="started"
+                        class="w-full max-w-2xl bg-discord-dark rounded-xl border border-black/20 shadow-2xl overflow-hidden font-mono text-sm">
+                        <div class="bg-discord-card px-4 py-2 border-b border-black/20 flex gap-2">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            <span class="ml-2 text-xs text-discord-muted">bot_setup.exe</span>
+                        </div>
+                        <div class="p-4 h-80 overflow-y-auto space-y-2" id="console-output">
+                            <template x-for="log in logs">
+                                <div class="flex gap-2">
+                                    <span class="text-discord-blurple">➜</span>
+                                    <span :class="log.color" x-text="log.text"></span>
+                                </div>
+                            </template>
+                            <!-- Cursor piscando -->
+                            <div x-show="!finished" class="animate-pulse text-discord-blurple">_</div>
+
+                            <!-- Botão Final -->
+                            <div x-show="finished" class="pt-4 mt-4 border-t border-white/5 text-center fade-in">
+                                <p class="text-green-400 font-bold mb-3">✅ Evento Criado com Sucesso!</p>
+                                <div class="flex gap-3 justify-center">
+                                    <button
+                                        class="bg-discord-blurple text-white px-4 py-2 rounded text-xs hover:bg-opacity-80">
+                                        Ver Página de Inscrição
+                                    </button>
+                                    <button
+                                        class="bg-discord-card text-white px-4 py-2 rounded text-xs hover:bg-opacity-80 border border-white/10">
+                                        Baixar Checklist PDF
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <script>
+            function app() {
+                return {
+                    view: 'landing', // 'landing', 'demo', 'organizer-dash', 'public-page', 'participant-dash', 'kanban'
+
+                    // --- Dados do Simulador (Existente) ---
+                    started: false,
+                    finished: false,
+                    progress: 0,
+                    logs: [],
+                    serverStructure: [],
+                    stats: { channels: 0, roles: 0, permissions: 0, teams: 0 },
+
+                    // --- Dados do Novo Fluxo ---
+
+                    // 1. Dados do Evento (Organizador)
+                    eventData: {
+                        name: 'Meu Hackathon Incrível',
+                        description: 'Um evento para revolucionar o mercado de tecnologia com soluções inovadoras.',
+                        startDate: '2025-03-15',
+                        endDate: '2025-03-17',
+                        discordLink: 'https://discord.gg/exemplo',
+                        rules: '1. Respeito acima de tudo.\n2. Equipes de 3 a 5 pessoas.\n3. O código deve ser desenvolvido durante o evento.',
+                        prizes: '1º Lugar: R$ 5.000\n2º Lugar: R$ 2.000\n3º Lugar: Kits Dev',
+                        schedule: [
+                            { time: '09:00', activity: 'Abertura Oficial' },
+                            { time: '10:00', activity: 'Formação de Equipes' },
+                            { time: '12:00', activity: 'Hacking Begins!' }
+                        ]
+                    },
+
+                    // 2. Dados do Participante (Usuário)
+                    participantData: {
+                        name: '',
+                        email: '',
+                        role: 'Developer', // Developer, Designer, Business
+                        registered: false
+                    },
+
+                    // 3. Dados da Equipe (Team Dashboard)
+                    team: {
+                        name: 'Rocket Devs',
+                        members: [
+                            { name: 'Você', email: 'voce@email.com', role: 'Líder' }
+                        ],
+                        inviteEmail: ''
+                    },
+
+                    // 4. Kanban (Project Management)
+                    tasks: [
+                        { id: 1, title: 'Definir ideia do projeto', status: 'done', assignee: 'Time' },
+                        { id: 2, title: 'Criar protótipo no Figma', status: 'doing', assignee: 'Designer' },
+                        { id: 3, title: 'Configurar repositório Git', status: 'doing', assignee: 'Dev' },
+                        { id: 4, title: 'Codar MVP', status: 'todo', assignee: 'Dev' },
+                        { id: 5, title: 'Preparar Pitch', status: 'todo', assignee: 'Business' }
+                    ],
+
+                    newTaskTitle: '',
+
+                    // --- Métodos do Simulador (Mantidos) ---
+
+                    fullServerStructure: [
+                        { type: 'category', name: 'INTERAÇÃO' },
+                        { type: 'text', name: '📍-check-in', locked: false },
+                        { type: 'text', name: '🦉-tô-perdido', locked: false },
+                        { type: 'text', name: '💬-bate-papo', locked: false },
+                        { type: 'text', name: '📸-tô-no-hackathon', locked: true },
+                        { type: 'text', name: '🌎-networking', locked: true },
+                        { type: 'text', name: '❓-tire-sua-dúvida', locked: true },
+                        { type: 'category', name: 'IMPORTANTE ⬇️' },
+                        { type: 'text', name: '🔔-avisos', locked: true },
+                        { type: 'text', name: '📅-programação-lives', locked: true },
+                        { type: 'text', name: '🔥-entregas', locked: true },
+                        { type: 'text', name: '🚀-desafios', locked: true },
+                        { type: 'text', name: '📄-regras', locked: true },
+                        { type: 'text', name: '🏆-premiação', locked: true },
+                        { type: 'category', name: 'MENTORIA' },
+                        { type: 'text', name: '🎫-abrir-ticket', locked: true },
+                        { type: 'text', name: '📚-materiais-apoio', locked: true },
+                        { type: 'text', name: '🗓️-agenda-mentores', locked: true },
+                        { type: 'category', name: 'MONTAGEM DE TIMES' },
+                        { type: 'text', name: '🙋-tô-sem-time', locked: true },
+                        { type: 'text', name: '🧩-criar-time', locked: true },
+                        { type: 'text', name: '🔍-buscar-habilidades', locked: true },
+                        { type: 'category', name: 'STAFF' },
+                        { type: 'text', name: '🔧-painel-admin', locked: true },
+                        { type: 'text', name: '📊-dashboard', locked: true },
+                        { type: 'text', name: '🚨-reports', locked: true },
+                        { type: 'category', name: '═══ EQUIPES ═══' },
+                    ],
+
+                    generateTeams() {
+                        const teams = [];
+                        for (let i = 1; i <= 50; i++) {
+                            const num = String(i).padStart(3, '0');
+                            teams.push({ type: 'voice', name: `🔊 equipe-${num}`, locked: false, isTeam: true });
+                            teams.push({ type: 'text', name: `💬-chat-${num}`, locked: true, isTeam: true });
                         }
-                        // Velocidade mais rápida para as equipes (efeito "máquina trabalhando")
-                        await this.wait(50);
+                        return teams;
+                    },
+
+                    async populateServerStructure() {
+                        for (let i = 0; i < this.fullServerStructure.length; i++) {
+                            this.serverStructure.push(this.fullServerStructure[i]);
+                            this.stats.channels++;
+                            await this.wait(150);
+                        }
+
+                        const teams = this.generateTeams();
+                        for (let i = 0; i < teams.length; i++) {
+                            this.serverStructure.push(teams[i]);
+                            this.stats.channels++;
+                            if (teams[i].type === 'voice') {
+                                this.stats.teams++;
+                            }
+                            await this.wait(50);
+                        }
+                    },
+
+                    async startSimulation() {
+                        this.started = true;
+                        this.serverStructure = [];
+                        this.stats = { channels: 0, roles: 0, permissions: 0, teams: 0 };
+
+                        this.addLog("Iniciando HackaBot v2.0...", "text-white");
+                        await this.wait(600);
+
+                        this.addLog("Conectando ao servidor Discord...", "text-yellow-400");
+                        await this.wait(800);
+                        this.addLog("✓ Conectado com sucesso.", "text-green-400");
+
+                        await this.wait(400);
+                        this.addLog("", "text-white");
+                        this.addLog("══════ CRIANDO CARGOS ══════", "text-purple-400");
+                        const roles = ['@Organizador', '@Mentor', '@Jurado', '@Participante', '@Staff', '@Patrocinador'];
+                        for (const role of roles) {
+                            await this.wait(200);
+                            this.addLog(`  + Cargo ${role} criado`, "text-discord-muted");
+                            this.stats.roles++;
+                        }
+                        this.addLog("✓ 6 cargos configurados.", "text-green-400");
+
+                        await this.wait(300);
+                        this.addLog("", "text-white");
+                        this.addLog("══════ CONFIGURANDO PERMISSÕES ══════", "text-orange-400");
+                        const permissions = [
+                            'Leitura de mensagens', 'Envio de mensagens', 'Anexar arquivos',
+                            'Criar threads', 'Conectar em voz', 'Falar em voz',
+                            'Compartilhar tela', 'Mencionar @everyone', 'Gerenciar mensagens',
+                            'Ver histórico', 'Usar comandos de barra', 'Reagir a mensagens'
+                        ];
+                        for (const perm of permissions) {
+                            await this.wait(80);
+                            this.addLog(`  ↳ ${perm}`, "text-discord-muted");
+                            this.stats.permissions++;
+                        }
+                        this.addLog("✓ 72 regras de permissão aplicadas (6 cargos × 12 permissões).", "text-green-400");
+
+                        await this.wait(400);
+                        this.addLog("", "text-white");
+                        this.addLog("══════ CRIANDO ESTRUTURA ══════", "text-cyan-400");
+                        this.addLog("Gerando categorias e canais...", "text-white");
+
+                        await this.populateServerStructure();
+
+                        this.addLog(`✓ ${this.stats.channels} canais criados.`, "text-green-400");
+                        this.addLog(`✓ ${this.stats.teams} salas de equipe prontas.`, "text-green-400");
+
+                        await this.wait(400);
+                        this.addLog("", "text-white");
+                        this.addLog("══════ AUTOMAÇÕES EXTRAS ══════", "text-pink-400");
+
+                        const extras = [
+                            { text: 'Webhook de notificações configurado', delay: 200 },
+                            { text: 'Bot de boas-vindas ativado', delay: 200 },
+                            { text: 'Sistema de tickets integrado', delay: 200 },
+                            { text: 'Auto-moderação configurada (anti-spam, filtros)', delay: 250 },
+                            { text: 'Formulário de inscrição gerado', delay: 200 },
+                            { text: 'Integração com Google Sheets ativada', delay: 200 },
+                            { text: 'Template de regras aplicado', delay: 150 },
+                            { text: 'Cronograma automático configurado', delay: 200 },
+                            { text: 'Sistema de votação de projetos pronto', delay: 200 },
+                        ];
+
+                        for (const extra of extras) {
+                            await this.wait(extra.delay);
+                            this.addLog(`  ✓ ${extra.text}`, "text-discord-muted");
+                        }
+
+                        await this.wait(500);
+                        this.addLog("", "text-white");
+                        this.addLog("══════ PÁGINA DE INSCRIÇÃO ══════", "text-blue-400");
+                        this.addLog("Gerando landing page personalizada...", "text-white");
+                        await this.wait(600);
+                        this.addLog("Link: hackabot.io/evento/meu-hackathon-2025", "text-blue-400 underline cursor-pointer");
+
+                        await this.wait(400);
+                        this.addLog("", "text-white");
+                        this.addLog("════════════════════════════════", "text-discord-blurple");
+                        this.addLog(`📊 RESUMO: ${this.stats.channels} canais | ${this.stats.roles} cargos | ${this.stats.permissions * this.stats.roles} permissões | ${this.stats.teams} equipes`, "text-white font-bold");
+                        this.addLog("⏱️  Tempo total: 47 segundos", "text-discord-muted");
+                        this.addLog("💡 Manualmente isso levaria: ~4 horas", "text-yellow-400");
+                        this.addLog("════════════════════════════════", "text-discord-blurple");
+
+                        await this.wait(500);
+                        this.finished = true;
+                    },
+
+                    addLog(text, color) {
+                        this.logs.push({ text, color });
+                        setTimeout(() => {
+                            const el = document.getElementById('console-output');
+                            if (el) el.scrollTop = el.scrollHeight;
+                        }, 50);
+                    },
+
+                    wait(ms) {
+                        return new Promise(resolve => setTimeout(resolve, ms));
+                    },
+
+                    // --- Métodos do Novo Fluxo (Actions) ---
+                    addTeamMember() {
+                        if (this.team.inviteEmail) {
+                            this.team.members.push({
+                                name: 'Convidado',
+                                email: this.team.inviteEmail,
+                                role: 'Membro'
+                            });
+                            this.team.inviteEmail = '';
+                        }
+                    },
+
+                    removeTeamMember(index) {
+                        this.team.members.splice(index, 1);
+                    },
+
+                    kanbanAddTask() {
+                        if (this.newTaskTitle) {
+                            this.tasks.push({
+                                id: Date.now(),
+                                title: this.newTaskTitle,
+                                status: 'todo',
+                                assignee: 'A definir'
+                            });
+                            this.newTaskTitle = '';
+                        }
+                    },
+
+                    kanbanMoveTask(task, newStatus) {
+                        task.status = newStatus;
+                    },
+
+                    registerParticipant() {
+                        if (this.participantData.name && this.participantData.email) {
+                            this.participantData.registered = true;
+                            this.view = 'participant-dash';
+                        } else {
+                            alert('Por favor, preencha nome e email!');
+                        }
+                    },
+
+                    saveEventAndPublish() {
+                        // Aqui salvaria no backend. Por enquanto só muda a view.
+                        this.view = 'public-page';
                     }
-                },
-                
-                async startSimulation() {
-                    this.started = true;
-                    this.serverStructure = [];
-                    this.stats = { channels: 0, roles: 0, permissions: 0, teams: 0 };
-                    
-                    this.addLog("Iniciando HackaBot v2.0...", "text-white");
-                    await this.wait(600);
-                    
-                    this.addLog("Conectando ao servidor Discord...", "text-yellow-400");
-                    await this.wait(800);
-                    this.addLog("✓ Conectado com sucesso.", "text-green-400");
-                    
-                    // Criação de cargos
-                    await this.wait(400);
-                    this.addLog("", "text-white");
-                    this.addLog("══════ CRIANDO CARGOS ══════", "text-purple-400");
-                    const roles = ['@Organizador', '@Mentor', '@Jurado', '@Participante', '@Staff', '@Patrocinador'];
-                    for (const role of roles) {
-                        await this.wait(200);
-                        this.addLog(`  + Cargo ${role} criado`, "text-discord-muted");
-                        this.stats.roles++;
-                    }
-                    this.addLog("✓ 6 cargos configurados.", "text-green-400");
-                    
-                    // Permissões
-                    await this.wait(300);
-                    this.addLog("", "text-white");
-                    this.addLog("══════ CONFIGURANDO PERMISSÕES ══════", "text-orange-400");
-                    const permissions = [
-                        'Leitura de mensagens', 'Envio de mensagens', 'Anexar arquivos',
-                        'Criar threads', 'Conectar em voz', 'Falar em voz',
-                        'Compartilhar tela', 'Mencionar @everyone', 'Gerenciar mensagens',
-                        'Ver histórico', 'Usar comandos de barra', 'Reagir a mensagens'
-                    ];
-                    for (const perm of permissions) {
-                        await this.wait(80);
-                        this.addLog(`  ↳ ${perm}`, "text-discord-muted");
-                        this.stats.permissions++;
-                    }
-                    this.addLog("✓ 72 regras de permissão aplicadas (6 cargos × 12 permissões).", "text-green-400");
-                    
-                    // Estrutura de canais
-                    await this.wait(400);
-                    this.addLog("", "text-white");
-                    this.addLog("══════ CRIANDO ESTRUTURA ══════", "text-cyan-400");
-                    this.addLog("Gerando categorias e canais...", "text-white");
-                    
-                    // Popula a estrutura item por item (roda em paralelo visualmente)
-                    await this.populateServerStructure();
-                    
-                    this.addLog(`✓ ${this.stats.channels} canais criados.`, "text-green-400");
-                    this.addLog(`✓ ${this.stats.teams} salas de equipe prontas.`, "text-green-400");
-                    
-                    // Configurações extras
-                    await this.wait(400);
-                    this.addLog("", "text-white");
-                    this.addLog("══════ AUTOMAÇÕES EXTRAS ══════", "text-pink-400");
-                    
-                    const extras = [
-                        { text: 'Webhook de notificações configurado', delay: 200 },
-                        { text: 'Bot de boas-vindas ativado', delay: 200 },
-                        { text: 'Sistema de tickets integrado', delay: 200 },
-                        { text: 'Auto-moderação configurada (anti-spam, filtros)', delay: 250 },
-                        { text: 'Formulário de inscrição gerado', delay: 200 },
-                        { text: 'Integração com Google Sheets ativada', delay: 200 },
-                        { text: 'Template de regras aplicado', delay: 150 },
-                        { text: 'Cronograma automático configurado', delay: 200 },
-                        { text: 'Sistema de votação de projetos pronto', delay: 200 },
-                    ];
-                    
-                    for (const extra of extras) {
-                        await this.wait(extra.delay);
-                        this.addLog(`  ✓ ${extra.text}`, "text-discord-muted");
-                    }
-                    
-                    await this.wait(500);
-                    this.addLog("", "text-white");
-                    this.addLog("══════ PÁGINA DE INSCRIÇÃO ══════", "text-blue-400");
-                    this.addLog("Gerando landing page personalizada...", "text-white");
-                    await this.wait(600);
-                    this.addLog("Link: hackabot.io/evento/meu-hackathon-2025", "text-blue-400 underline cursor-pointer");
-                    
-                    await this.wait(400);
-                    this.addLog("", "text-white");
-                    this.addLog("════════════════════════════════", "text-discord-blurple");
-                    this.addLog(`📊 RESUMO: ${this.stats.channels} canais | ${this.stats.roles} cargos | ${this.stats.permissions * this.stats.roles} permissões | ${this.stats.teams} equipes`, "text-white font-bold");
-                    this.addLog("⏱️  Tempo total: 47 segundos", "text-discord-muted");
-                    this.addLog("💡 Manualmente isso levaria: ~4 horas", "text-yellow-400");
-                    this.addLog("════════════════════════════════", "text-discord-blurple");
-                    
-                    await this.wait(500);
-                    this.finished = true;
-                },
-                
-                addLog(text, color) {
-                    this.logs.push({ text, color });
-                    // Auto-scroll
-                    setTimeout(() => {
-                        const el = document.getElementById('console-output');
-                        if(el) el.scrollTop = el.scrollHeight;
-                    }, 50);
-                },
-                
-                wait(ms) {
-                    return new Promise(resolve => setTimeout(resolve, ms));
                 }
             }
-        }
-    </script>
+        </script>
 </body>
+
 </html>
